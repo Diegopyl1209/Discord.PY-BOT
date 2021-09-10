@@ -22,6 +22,7 @@ embedstaff.add_field(name="Delete <channel - category>", value="Elimina un canal
 embedinfo = discord.Embed(title=":shield: | Ayuda", description="Comandos INFO", color=0x00ff00)
 embedinfo.add_field(name="Help", value="El comando de ayuda", inline=False)
 embedinfo.add_field(name="UserInfo", value="Envia un embed con informacion relevante de un usuario", inline=False)
+embedinfo.add_field(name="Avi", value="Obten el avatar de algun usuario", inline=False)
 embedinfo.add_field(name="opgg", value="Envia informacion sobre el perfil de opgg de alguien **PROXIMAMENTE**", inline=False)
 
 embedreaction = discord.Embed(title=":shield: | Ayuda")
