@@ -16,12 +16,25 @@ embedstaff.add_field(name="Deletewarn", value="Elimina una advertencia de algun 
 embedstaff.add_field(name="Purge", value="Elimina una cantidad de mensajes en algun canal del servidor", inline=False)
 embedstaff.add_field(name="Mute", value="Silencia a algun usuario", inline=False)
 embedstaff.add_field(name="Unmute", value="Quita el silencio a algun usuario", inline=False)
+embedstaff.add_field(name="New <channel - category>", value="Crea un canal o una categoria dando un rol y un nombre", inline=False)
+embedstaff.add_field(name="Delete <channel - category>", value="Elimina un canal o categoria dando un ID", inline=False)
 
 embedinfo = discord.Embed(title=":shield: | Ayuda", description="Comandos INFO", color=0x00ff00)
 embedinfo.add_field(name="Help", value="El comando de ayuda", inline=False)
+embedinfo.add_field(name="UserInfo", value="Envia un embed con informacion relevante de un usuario", inline=False)
 embedinfo.add_field(name="opgg", value="Envia informacion sobre el perfil de opgg de alguien **PROXIMAMENTE**", inline=False)
 
-embedreaction = discord.Embed(title="PROXIMAMENTE")
+embedreaction = discord.Embed(title=":shield: | Ayuda")
+embedreaction.add_field(name="Happy", value="Reaccion: HAPPY", inline=False)
+embedreaction.add_field(name="Cry", value="Reaccion: CRY", inline=False)
+embedreaction.add_field(name="Hug", value="Reaccion: HUG", inline=False)
+embedreaction.add_field(name="Kill", value="Reaccion: KILL", inline=False)
+embedreaction.add_field(name="Kiss", value="Reaccion: KISS", inline=False)
+embedreaction.add_field(name="Smug", value="Reaccion: SMUG", inline=False)
+embedreaction.add_field(name="Dance", value="Reaccion: DANCE", inline=False)
+embedreaction.add_field(name="Deathnote", value="Reaccion: DEATHNOTE", inline=False)
+
+
 
 
 class Help(commands.Cog, name="Help command"):

@@ -21,10 +21,10 @@ class TimeConverter(commands.Converter):
                 time += time_dict[value] * float(key)
             except KeyError:
                 raise commands.BadArgument(
-                    f"{value} is an invalid time key! h|m|s|d are valid arguments"
+                    f"{value} es una clave de tiempo no válida! h|m|s|d son argumentos validos"
                 )
             except ValueError:
-                raise commands.BadArgument(f"{key} is not a number!")
+                raise commands.BadArgument(f"{key} no es un numero!")
         return round(time)
 
 
@@ -41,16 +41,16 @@ class Moderation(commands.Cog):
         currentTime = datetime.datetime.now()
         mutes = deepcopy(self.bot.muted_users)
         for key, value in mutes.items():
-            if value['muteDuration'] is None:
+            if value['Duracion'] is None:
                 continue
 
-            unmuteTime = value['mutedAt'] + relativedelta(seconds=value['muteDuration'])
+            unmuteTime = value['Silenciado el'] + relativedelta(seconds=value['Duracion'])
 
             if currentTime >= unmuteTime:
-                guild = self.bot.get_guild(value['guildId'])
+                guild = self.bot.get_guild(value['Id del servidor'])
                 member = guild.get_member(value['_id'])
 
-                role = discord.utils.get(guild.roles, name="Muted")
+                role = discord.utils.get(guild.roles, name="😶 Muteado 😶")
                 if role in member.roles:
                     await member.remove_roles(role)
                     print(f"Unmuted: {member.display_name}")
@@ -67,7 +67,7 @@ class Moderation(commands.Cog):
 
     @commands.command(
         name='mute',
-        description="Mutes a given user for x time!",
+        description="Silencia a un usuario por x tiempo!",
         ussage='<user> [time]'
     )
     @commands.has_permissions(manage_roles=True)
@@ -132,7 +132,7 @@ class Moderation(commands.Cog):
     )
     @commands.has_permissions(manage_roles=True)
     async def unmute(self, ctx, member: discord.Member):
-        role = discord.utils.get(ctx.guild.roles, name="Muted")
+        role = discord.utils.get(ctx.guild.roles, name="😶 Muteado 😶")
         if not role:
             await ctx.send("No se encontro el rol `😶 Muteado 😶`")
             return

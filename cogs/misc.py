@@ -1,6 +1,8 @@
 import asyncio
+from bot import get_prefix
 import platform
 import random
+
 
 import discord
 from discord.ext import commands
@@ -84,6 +86,59 @@ class Misc(commands.Cog):
             command.enabled = not command.enabled
             ternary = "Habilitado" if command.enabled else "Desabilitado"
             await ctx.send(f"Tengo {ternary} el comando {command.qualified_name} por ti!")
+
+
+    @commands.group(invoke_without_command=True, aliases=['user', 'uinfo', 'info', 'ui'])
+    async def userinfo(self, ctx, *, user: discord.Member = None):
+        if user is None:
+            user = ctx.message.author
+
+        date_format = "%a, %d %b %Y %I:%M %p"
+        embed = discord.Embed(color=0xdfa3ff, description=user.mention)
+        embed.set_author(name=str(user), icon_url=user.avatar_url)
+        embed.set_thumbnail(url=user.avatar_url)
+        embed.add_field(name="Fecha de ingreso", value=user.joined_at.strftime(date_format))
+        members = sorted(ctx.guild.members, key=lambda m: m.joined_at)
+        embed.add_field(name="Posicion de ingreso", value=str(members.index(user)+1))
+        embed.add_field(name="Fecha de registro", value=user.created_at.strftime(date_format))
+        if len(user.roles) > 1:
+            role_string = ' '.join([r.mention for r in user.roles][1:])
+            embed.add_field(name="Roles [{}]".format(len(user.roles)-1), value=role_string, inline=False)
+        perm_string = ', '.join([str(p[0]).replace("_", " ").title() for p in user.guild_permissions if p[1]])
+        embed.set_footer(text='ID: ' + str(user.id))
+        return await ctx.send(embed=embed)
+                
+            
+        await ctx.message.delete()
+
+    @userinfo.command()
+    async def avi(self, ctx, txt: str = None):
+        """View bigger version of user's avatar. Ex: [p]info avi @user"""
+        if txt:
+            try:
+                user = ctx.message.mentions[0]
+            except IndexError:
+                user = ctx.guild.get_member_named(txt)
+            if not user:
+                user = ctx.guild.get_member(int(txt))
+            if not user:
+                user = self.bot.get_user(int(txt))
+            if not user:
+                await ctx.send('No pude encontrar al usuario.')
+                return
+        else:
+            user = ctx.message.author
+
+        if user.avatar_url_as(static_format='png')[54:].startswith('a_'):
+            avi = user.avatar_url.rsplit("?", 1)[0]
+        else:
+            avi = user.avatar_url_as(static_format='png')
+
+            em = discord.Embed(colour=0x708DD0)
+            em.set_image(url=avi)
+            await ctx.send(embed=em)
+
+
 
 
 def setup(bot):
