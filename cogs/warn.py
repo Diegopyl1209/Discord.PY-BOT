@@ -1,7 +1,6 @@
 from logging import log
 
 from aiohttp import client
-from bot import get_logchannel
 import discord
 from discord.ext import commands
 
