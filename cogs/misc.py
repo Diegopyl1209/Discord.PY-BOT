@@ -138,8 +138,14 @@ class Misc(commands.Cog):
             em.set_image(url=avi)
             await ctx.send(embed=em)
 
-
-
+    @commands.group(name="setlog",description="set log channel")
+    async def setlog(self, ctx, *, channel: discord.guild.TextChannel = None):
+        if channel:
+            await self.bot.log_channel.upsert({"_id": ctx.guild.id, "channel_id": channel.id})
+            await ctx.send(f"El canal de logs se a establecido en **{channel}**")
+        else:
+            await ctx.send("Debes especificar un canal")
+        
 
 def setup(bot):
     bot.add_cog(Misc(bot))

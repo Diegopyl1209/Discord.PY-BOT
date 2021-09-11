@@ -4,6 +4,7 @@ import random
 import asyncio
 
 from discord.ext import commands
+from discord.ext.commands.core import command
 from utils import http
 
 
@@ -67,9 +68,7 @@ class Fun(commands.Cog):
     
     @commands.group(name="deathnote", description="Reaccion: SMUG")
     async def deathnote(self, ctx, alguien: discord.guild.Member):
-        """ Nose """
         deathnote1 = ["https://gifimage.net/wp-content/uploads/2017/11/gif-escribiendo-14.gif", "https://i.imgur.com/At4yeWA.gif", "https://i.imgur.com/9nt8rY8.gif", "https://i.imgur.com/f99afcz.gif"]
-        deathnote2 = [""]
 
         embeddeath1 = discord.Embed(description=(f"**{ctx.author.name}** esta tramando algo").format(str), color=0x00ff00)
         embeddeath1.set_image(url=random.choice(deathnote1))
@@ -84,10 +83,47 @@ class Fun(commands.Cog):
 
         await ctx.send(embed = embeddeath2)
 
+    @commands.group(name="cringe", description="Reaccion: CRINGE")
+    async def cringe(self, ctx):
+        await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/cringe', 'url', "Le a dado cringe")
 
+    @commands.group(name="poke", description="INTERACCION: POKE")
+    async def poke(self, ctx, alguien:discord.guild.Member):
+        await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/poke', 'url', f"Busca la atencion de {alguien}")
 
+    @commands.group(name="wink", description="Reaccion: WINK")
+    async def wink(self, ctx):
+        await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/wink', 'url', "Le a guiñado a alguien")
+    
+    @commands.group(name="blush", description="Reaccion: BLUSH")
+    async def blush(self, ctx):
+        await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/blush', 'url', "Esta rojo como un tomate 🍅")
 
+    @commands.group(name="kickout", description="INTERACCION: KICK")
+    async def kickout(self, ctx, alguien:discord.guild.Member):
+        if alguien == ctx.message.author:
+            await ctx.send("No puedes hacer eso")
+        else:
+            await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/kick', 'url', f"Le a dado una patada a {alguien}")
+    
+    @commands.group(name="slap", description="INTERACCION: SLAP")
+    async def slap(self, ctx, alguien:discord.guild.Member):
+        await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/slap', 'url', f"Le a dado una bofeteada a {alguien}")
 
+    @commands.group(name="bite", description="INTERACCION: BITE")
+    async def bite(self, ctx, alguien:discord.guild.Member):
+        if alguien == ctx.message.author:
+            await ctx.send("No puedes hacer eso")
+        else:
+            await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/bite', 'url', f"A mordido a {alguien}")
 
+    @commands.group(name="highfive", description="INTERACCION: HIGHFIVE")
+    async def highfive(self, ctx, alguien:discord.guild.Member):
+        if alguien == ctx.message.author:
+            await ctx.send("No puedes hacer eso")
+        else:
+            await self.reactionapi(ctx, 'https://waifu.pics/api/sfw/highfive', 'url', f"Le a dado los cinco a {alguien}")
+
+    
 def setup(bot):
     bot.add_cog(Fun(bot))

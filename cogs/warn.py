@@ -1,13 +1,19 @@
+from logging import log
+
+from aiohttp import client
+from bot import get_logchannel
 import discord
 from discord.ext import commands
 
 from utils.util import Pag
 
 
+
+
 class Warns(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+    
     @commands.command()
     @commands.guild_only()
     @commands.has_role(713274381693878344)
@@ -39,8 +45,12 @@ class Warns(commands.Cog):
         embed.set_footer(text=f"Warn: {current_warn_count}")
         
         try:
+            channel_filter= {"_id":ctx.guild.id}
+            logchannel = await self.bot.log_channel.find_by_custom(channel_filter)
             await member.send(embed=embed)
             await ctx.send("Adverti a este usuario en DM por ti .")
+            channel = self.bot.get_channel(logchannel["channel_id"])
+            await channel.send(embed=embed)
         except discord.HTTPException:
             await ctx.send(member.mention, embed=embed)
             

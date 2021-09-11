@@ -3,6 +3,8 @@ import asyncio
 
 from discord.ext import commands
 
+
+"""CREACION DE TODOS LOS EMBEDS"""
 embedhelp = discord.Embed(title=":shield: | Ayuda", description="Bot con funciones de Moderación", color=0x00ff00)
 embedhelp.set_footer(text="Reacciones:\n🎮 = Comandos de STAFF\n📜 = Comandos de info y miselaneos\n😝 = Comandos Reacciones\n🌎 = Indice")
 
@@ -18,6 +20,7 @@ embedstaff.add_field(name="Mute", value="Silencia a algun usuario", inline=False
 embedstaff.add_field(name="Unmute", value="Quita el silencio a algun usuario", inline=False)
 embedstaff.add_field(name="New <channel - category>", value="Crea un canal o una categoria dando un rol y un nombre", inline=False)
 embedstaff.add_field(name="Delete <channel - category>", value="Elimina un canal o categoria dando un ID", inline=False)
+embedstaff.add_field(name="Setlog", value="Establece un canal de logs", inline=False)
 
 embedinfo = discord.Embed(title=":shield: | Ayuda", description="Comandos INFO", color=0x00ff00)
 embedinfo.add_field(name="Help", value="El comando de ayuda", inline=False)
@@ -28,15 +31,24 @@ embedinfo.add_field(name="opgg", value="Envia informacion sobre el perfil de opg
 embedreaction = discord.Embed(title=":shield: | Ayuda")
 embedreaction.add_field(name="Happy", value="Reaccion: HAPPY", inline=False)
 embedreaction.add_field(name="Cry", value="Reaccion: CRY", inline=False)
-embedreaction.add_field(name="Hug", value="Reaccion: HUG", inline=False)
-embedreaction.add_field(name="Kill", value="Reaccion: KILL", inline=False)
-embedreaction.add_field(name="Kiss", value="Reaccion: KISS", inline=False)
+embedreaction.add_field(name="Cringe", value="Reaccion: CRINGE", inline=False)
+embedreaction.add_field(name="Wink", value="Reaccion: WINK", inline=False)
 embedreaction.add_field(name="Smug", value="Reaccion: SMUG", inline=False)
 embedreaction.add_field(name="Dance", value="Reaccion: DANCE", inline=False)
-embedreaction.add_field(name="Deathnote", value="Reaccion: DEATHNOTE", inline=False)
+embedreaction.add_field(name="Blush", value="Reaccion: Blush", inline=False)
 
+embedinteraction = discord.Embed(title=":shield: | Ayuda", description="Comandos Interacciones")
+embedinteraction.add_field(name="Kill", value="Interaccion: KILL", inline=False)
+embedinteraction.add_field(name="Deathnote", value="Interaccion: DEATHNOTE", inline=False)
+embedinteraction.add_field(name="Hug", value="Interaccion: HUG", inline=False)
+embedinteraction.add_field(name="Kiss", value="Interaccion: KISS", inline=False)
+embedinteraction.add_field(name="Poke", value="Interaccion: POKE", inline=False)
+embedinteraction.add_field(name="Kick", value="Interaccion: KICK", inline=False)
+embedinteraction.add_field(name="Slap", value="Interaccion: SLAP", inline=False)
+embedinteraction.add_field(name="Bite", value="Interaccion: Bite", inline=False)
+embedinteraction.add_field(name="Highfive", value="Interaccion: HIGHFIVE", inline=False)
 
-
+"""FIN DE LA CREACION DE LOS EMBEDS"""
 
 class Help(commands.Cog, name="Help command"):
     def __init__(self, bot):
@@ -56,10 +68,11 @@ class Help(commands.Cog, name="Help command"):
             await message.add_reaction("🎮")
             await message.add_reaction("📜")
             await message.add_reaction("😝")
+            await message.add_reaction("🤝")
             await message.add_reaction("🌎")
 
             def check(reaction, user):
-                return user == ctx.author and str(reaction.emoji) in ["📜", "🎮", "😝", "🌎"]
+                return user == ctx.author and str(reaction.emoji) in ["📜", "🎮", "😝", "🤝","🌎"]
             # This makes sure nobody except the command sender can interact with the "menu"
 
             while True:
@@ -80,6 +93,10 @@ class Help(commands.Cog, name="Help command"):
                     elif str(reaction.emoji) == "😝":
                         cur_page -= 1
                         await message.edit(embed = embedreaction)
+                        await message.remove_reaction(reaction, user)
+                    elif str(reaction.emoji) == "🤝":
+                        cur_page -= 1
+                        await message.edit(embed = embedinteraction)
                         await message.remove_reaction(reaction, user)
                     elif str(reaction.emoji) == "🌎":
                         cur_page -= 1
